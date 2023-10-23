@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.267">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>David’s awesome serology modelling idea</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="main_files/libs/clipboard/clipboard.min.js"></script>
+<script src="main_files/libs/quarto-html/quarto.js"></script>
+<script src="main_files/libs/quarto-html/popper.min.js"></script>
+<script src="main_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="main_files/libs/quarto-html/anchor.min.js"></script>
+<link href="main_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="main_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="main_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="main_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="main_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="main_files/libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
+<script src="main_files/libs/jquery-1.12.4/jquery.min.js"></script>
+<link href="main_files/libs/leaflet-1.3.1/leaflet.css" rel="stylesheet">
+<script src="main_files/libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="main_files/libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet">
+<script src="main_files/libs/proj4-2.6.2/proj4.min.js"></script>
+<script src="main_files/libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="main_files/libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet">
+<script src="main_files/libs/leaflet-binding-2.1.2/leaflet.js"></script>
+<script src="main_files/libs/leaflet-providers-1.9.0/leaflet-providers_1.9.0.js"></script>
+<script src="main_files/libs/leaflet-providers-plugin-2.1.2/leaflet-providers-plugin.js"></script>
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#motivation" id="toc-motivation" class="nav-link active" data-scroll-target="#motivation">Motivation</a></li>
+  <li><a href="#available-data" id="toc-available-data" class="nav-link" data-scroll-target="#available-data">Available data</a>
+  <ul class="collapse">
+  <li><a href="#chiefdom-level-aggregation" id="toc-chiefdom-level-aggregation" class="nav-link" data-scroll-target="#chiefdom-level-aggregation">Chiefdom level aggregation</a></li>
+  </ul></li>
+  <li><a href="#village-level---kenema" id="toc-village-level---kenema" class="nav-link" data-scroll-target="#village-level---kenema">Village level - Kenema</a>
+  <ul class="collapse">
+  <li><a href="#kenema---increasing" id="toc-kenema---increasing" class="nav-link" data-scroll-target="#kenema---increasing">Kenema - Increasing</a></li>
+  <li><a href="#kenema---similar" id="toc-kenema---similar" class="nav-link" data-scroll-target="#kenema---similar">Kenema - Similar</a></li>
+  <li><a href="#kenema---decreasing" id="toc-kenema---decreasing" class="nav-link" data-scroll-target="#kenema---decreasing">Kenema - Decreasing</a></li>
+  </ul></li>
+  <li><a href="#village-level---tonkoliki" id="toc-village-level---tonkoliki" class="nav-link" data-scroll-target="#village-level---tonkoliki">Village level - Tonkoliki</a>
+  <ul class="collapse">
+  <li><a href="#tonkoliki---similar" id="toc-tonkoliki---similar" class="nav-link" data-scroll-target="#tonkoliki---similar">Tonkoliki - Similar</a></li>
+  <li><a href="#tonkoliki---declining" id="toc-tonkoliki---declining" class="nav-link" data-scroll-target="#tonkoliki---declining">Tonkoliki - Declining</a></li>
+  </ul></li>
+  <li><a href="#village-level---port-loko" id="toc-village-level---port-loko" class="nav-link" data-scroll-target="#village-level---port-loko">Village level - Port Loko</a>
+  <ul class="collapse">
+  <li><a href="#port-loko---increasing" id="toc-port-loko---increasing" class="nav-link" data-scroll-target="#port-loko---increasing">Port Loko - Increasing</a></li>
+  <li><a href="#port-loko---similar" id="toc-port-loko---similar" class="nav-link" data-scroll-target="#port-loko---similar">Port Loko - Similar</a></li>
+  </ul></li>
+  <li><a href="#rodent-and-pathogen-abundance-dynamics-that-can-reproduce-these-trends" id="toc-rodent-and-pathogen-abundance-dynamics-that-can-reproduce-these-trends" class="nav-link" data-scroll-target="#rodent-and-pathogen-abundance-dynamics-that-can-reproduce-these-trends">Rodent and Pathogen abundance dynamics that can reproduce these trends</a></li>
+  </ul>
+</nav>
+</div>
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">David’s awesome serology modelling idea</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="motivation" class="level2">
+<h2 class="anchored" data-anchor-id="motivation">Motivation</h2>
+<p>I think there is an oversimplification in our understanding of the burden of Lassa fever disease in endemic settings. We are aware that outbreaks occur that are temporarally and spatially limited but this is ignored when the risk of Lassa fever is discussed at a national and regional scale. We are now beginning to get data on age stratified seroprevalence studies which can provide some information on whether the force of infection (i.e., the risk of spillover from rodent populations into humans) is time-varying or constant. This could help us understand whether the virus is continuously circulating in the reservoir host or if alternatively there are important temporal components and complexity to the risk of Lassa fever outbreaks.</p>
+<p>If the force of infection were approximately constant we’d expect fairly linear increase in seropositivity as time at risk increases. We’d see that as age increases the proportion of individuals converting from sero-negative to sero-positive increases at a constant rate. A complicating factor would be declining antibodies and therefore individuals becoming susceptible to reinfection or the inability to detect prior infection. I believe we could more effectively quantify this though, if this where to be an important factor. For example <a href="https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/2041-210X.14165">Inferring time of infection from field data using dynamic models of antibody decay</a>.</p>
+<p>An alternative would be fluctations in the age-stratified seroprevalence. This may suggest that individuals that were in the location and therefore at risk of infection during a defined period would be seropositive while those that were not born yet couldn’t be seropositive as they wouldn’t have been exposed to the outbreak. In terms of force of infection this could suggest that at some points in time it would be very high, with periods with very low force of infection. This could be explained by periods of no viral transmission within the rodent population, and therefore no risk of spillover. Alternatively this could be explained by constant rates of viral transmission but a collapse in the rodent population for some other reason and therefore no risk of spillover.</p>
+<p>A third possible scenario is declining seropositivity with age. This one I think is a bit harder and I don’t have a good way to link it to rodent or pathogen dynamics. If seropositivity is declining this could be everyone is exposed in childhood and this is a function of antibody depletion over time, but why did these people not get reinfected. It could be driven by human behaviour. It could also be driven by seropositive individuals being more likely than seronegative individuals to die at the sampling timepoint (but this seems extreme).</p>
+<p>In any case I think it could be interesting and informative to theoretically model different scenarios based on available data. My idea would be that we select several human age-stratified seropositivity examples as a case study, perhaps stratifying by highly endemic and other areas. Then seeing if we can reproduce these patterns by modelling pathogen and rodent abundance using a theoretical model. For example we can assume rodent population abundance is constant, or time varying with different periodicity, we would do the same for pathogen prevalence within the rodents and see what interaction can reproduce the observed data. I think we’d want to model time-varying force of infection rather that human infection exactly because of waning antibodies.</p>
+<p>Below I show what data may be a useful starting point for thinking about this. We may want to utilise the rodent associated zoonosis network for this work as I think it’s a bit beyond to direct completely, but I think it could be a great PhD chapter. I see this primarily as a theoretical piece of work which could then be validated in the SCAPES data or with additional targetted data collection. Ultimately I hope this could be used as an argument for the need for longer field studies to understand the dynamic risk in the Lassa system and the limited benefit of cross-sectional studies, particularly in rodents.</p>
+</section>
+<section id="available-data" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="available-data">Available data</h2>
+<p>Load in packages and data from the <em>Grant et al., 2023</em> study. Cross sectional seroprevalence data in Sierra Leone. This contains data on age stratified serological status on 10,642 individuals from 82 villages in three provinces of Sierra Leone. Historically, only Kenema province was considered to be a highly endemic setting. These data suggest that may not be the case with high seroprevalence seen in communities outside of this province.</p>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(<span class="at">echo =</span> <span class="cn">TRUE</span>, <span class="at">fig.width =</span> <span class="dv">10</span>, <span class="at">fig.height =</span> <span class="dv">8</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">"pacman"</span>)) <span class="fu">install.packages</span>(<span class="st">"pacman"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: pacman</code></pre>
+</div>
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>pkgs <span class="ot">=</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">"here"</span>,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"tidyverse"</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"readxl"</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"mapview"</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"sf"</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"geodata"</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"leaflet"</span>,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"leaflet.extras"</span>,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"viridis"</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(pkgs, <span class="at">character.only =</span> T)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>sero_data <span class="ot">&lt;-</span> <span class="fu">read_xls</span>(<span class="at">path =</span> <span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"PEER_HealthData_Public.xls"</span>))</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>sero <span class="ot">&lt;-</span> sero_data <span class="sc">%&gt;%</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">village =</span> <span class="fu">as_factor</span>(village),</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>         <span class="at">chiefdom =</span> <span class="fu">as_factor</span>(chiefdom),</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>         <span class="at">district =</span> <span class="fu">as_factor</span>(district),</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>         <span class="at">sex =</span> <span class="fu">as_factor</span>(sex),</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>         <span class="at">iggfinal =</span> <span class="fu">as_factor</span>(iggfinal),</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>         <span class="at">age_cat =</span> <span class="fu">cut</span>(age_en, <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">9</span>, <span class="dv">19</span>, <span class="dv">29</span>, <span class="dv">39</span>, <span class="dv">49</span>, <span class="dv">59</span>, <span class="dv">69</span>, <span class="dv">79</span>, <span class="dv">89</span>, <span class="dv">99</span>, <span class="dv">109</span>),</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>                       <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"0-9"</span>, <span class="st">"10-19"</span>, <span class="st">"20-29"</span>, <span class="st">"30-39"</span>, <span class="st">"40-49"</span>, <span class="st">"50-59"</span>, <span class="st">"60-69"</span>, <span class="st">"70-79"</span>, <span class="st">"80-89"</span>, <span class="st">"90-99"</span>, <span class="st">"100-109"</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(ID, village, chiefdom, district, sex, age_en, iggfinal, age_cat) <span class="sc">%&gt;%</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(age_en)</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>locations_raw <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="at">file =</span> <span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"PEER_Locations.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 166 Columns: 5</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (4): Village, GPS Coordinates, Community Size*, Seropositivity N (%)
+dbl (1): Participants
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>locations <span class="ot">&lt;-</span> locations_raw <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(<span class="st">`</span><span class="at">GPS Coordinates</span><span class="st">`</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(Village, <span class="at">.direction =</span> <span class="st">"down"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="st">`</span><span class="at">Community Size*</span><span class="st">`</span>, <span class="at">.direction =</span> <span class="st">"down"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(Participants, <span class="at">.direction =</span> <span class="st">"down"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="st">`</span><span class="at">Seropositivity N (%)</span><span class="st">`</span>, <span class="at">.direction =</span> <span class="st">"down"</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(<span class="st">`</span><span class="at">GPS Coordinates</span><span class="st">`</span>, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"Direction"</span>, <span class="st">"Coordinates"</span>), <span class="at">sep =</span> <span class="st">" "</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> Direction, <span class="at">values_from =</span> Coordinates) <span class="sc">%&gt;%</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">"latitude"</span> <span class="ot">=</span> <span class="st">"N"</span>,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>         <span class="st">"longitude"</span> <span class="ot">=</span> <span class="st">"W"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">latitude =</span> <span class="fu">as.numeric</span>(latitude),</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>         <span class="at">longitude =</span> <span class="sc">-</span><span class="fu">as.numeric</span>(longitude),</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>         <span class="at">community_size =</span> <span class="fu">factor</span>(<span class="st">`</span><span class="at">Community Size*</span><span class="st">`</span>, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Small"</span>, <span class="st">"Medium"</span>, <span class="st">"Large"</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"65-375"</span>, <span class="st">"376-686"</span>, <span class="st">"687-1000"</span>)),</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>         <span class="at">n_pos =</span> <span class="fu">as.numeric</span>(<span class="fu">str_extract</span>(<span class="st">`</span><span class="at">Seropositivity N (%)</span><span class="st">`</span>, <span class="st">"[0-9]+"</span>)),</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>         <span class="at">prop_pos =</span> n_pos<span class="sc">/</span>Participants) <span class="sc">%&gt;%</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="at">village =</span> Village, <span class="at">participants =</span> Participants, community_size, n_pos, prop_pos, latitude, longitude)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>This shows the locations of the study communities, the proportion of individuals positive within these communities and the number of positive samples. The popups contain further details on the size of the community and number of individuals included in the study.</p>
+<div class="cell fig-column-page-right">
+<div class="cell-output-display">
+<div class="leaflet html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-0f00276eadaa7df8516c" style="width:100%;height:520px;"></div>
+<script type="application/json" data-for="htmlwidget-0f00276eadaa7df8516c">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addProviderTiles","args":["CartoDB.Positron",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addCircleMarkers","args":[[7.762661,8.098046,8.231721,8.154537,8.282319,8.104974,7.616507,8.231582,8.175211,7.630865,8.061616,7.995187,8.106163,8.323698,7.907588,7.892324,8.274488,7.898208,7.847216,8.051014,8.174653,7.744658,7.757858,7.769912,7.953218,7.712857,8.048327,8.186889,7.80875,8.12103,8.698279,8.691447,8.725511,8.760678,8.870712,8.896977,8.868382,8.900728,8.941122,8.470298,8.475743,8.907392,8.562514,8.566092,8.713723,8.920821,8.922138,8.579579,8.726211,9.014186,8.791904,8.731459,8.883433,8.7068,8.914929,8.584283,8.773874,8.757046,8.643569,8.685366,8.63644,8.785286,8.860883,8.696487,8.668915,8.645331,8.757134,8.668719,8.635849,8.468829,8.74794,8.714903,8.701285,8.6353,8.767533,8.73444,8.658053,8.696331,8.634413,8.741888,8.757152,8.631235],[-11.36658,-10.970994,-10.890665,-11.17158,-11.379355,-11.055531,-11.446048,-11.343562,-11.20012,-11.11798,-10.996173,-11.083379,-11.010608,-11.370818,-11.085342,-11.131801,-11.074731,-11.046249,-11.117803,-10.968487,-11.085466,-11.04871,-11.078438,-11.041639,-11.31145,-11.388466,-11.033974,-11.200752,-11.368307,-11.009368,-13.239524,-12.692198,-12.959058,-12.472747,-12.513812,-12.836979,-12.477709,-12.508055,-12.857576,-12.655005,-12.648131,-12.875606,-13.130782,-13.143895,-12.969454,-12.855978,-12.857411,-13.143377,-12.687446,-12.827678,-12.843518,-12.719125,-12.493767,-13.239553,-12.856997,-11.427915,-11.852921,-11.966604,-11.502716,-11.931459,-11.831444,-11.871397,-11.813135,-11.921544,-11.922364,-11.84615,-11.886451,-11.883029,-11.474979,-12.205451,-11.839153,-11.902135,-11.938828,-11.902604,-11.876654,-11.903496,-11.891744,-11.921455,-11.445015,-11.89697,-11.886355,-11.700727],4,null,"Proportion Positive",{"interactive":true,"className":"","stroke":true,"color":["#000000","#BEBEBE","#BEBEBE","#D3D3D3","#D3D3D3","#000000","#D3D3D3","#D3D3D3","#D3D3D3","#BEBEBE","#D3D3D3","#D3D3D3","#BEBEBE","#BEBEBE","#D3D3D3","#D3D3D3","#BEBEBE","#D3D3D3","#BEBEBE","#D3D3D3","#BEBEBE","#D3D3D3","#D3D3D3","#BEBEBE","#BEBEBE","#BEBEBE","#000000","#D3D3D3","#D3D3D3","#BEBEBE","#D3D3D3","#D3D3D3","#D3D3D3","#D3D3D3","#BEBEBE","#D3D3D3","#D3D3D3","#D3D3D3","#D3D3D3","#D3D3D3","#D3D3D3","#D3D3D3","#D3D3D3","#000000","#D3D3D3","#000000","#D3D3D3","#BEBEBE","#D3D3D3","#D3D3D3","#D3D3D3","#D3D3D3","#D3D3D3","#D3D3D3","#D3D3D3","#D3D3D3","#D3D3D3","#D3D3D3","#D3D3D3","#D3D3D3","#D3D3D3","#D3D3D3","#D3D3D3","#D3D3D3","#000000","#BEBEBE","#D3D3D3","#D3D3D3","#BEBEBE","#D3D3D3","#D3D3D3","#000000","#D3D3D3","#BEBEBE","#BEBEBE","#BEBEBE","#D3D3D3","#000000","#D3D3D3","#D3D3D3","#D3D3D3","#D3D3D3"],"weight":1,"opacity":1,"fill":true,"fillColor":["#FFF7B8","#FFDE80","#FFDE81","#FFF8BB","#FFF4B0","#FEAA48","#FEDB79","#FFFBC3","#A70026","#FFFFCC","#FFE793","#FFF6B5","#FE9740","#FFE895","#FFFECA","#FFFCC5","#9C0026","#FFF4B1","#FFFFCC","#FFEEA2","#FEAB49","#FD943F","#FFF2AC","#FFF8BA","#FFF9BD","#FFF0A8","#FEAB49","#FFF0A8","#FD6830","#FD6730","#FFFFCC","#FFEEA1","#FED977","#C70724","#FEBC57","#FFF2AD","#FFF7B8","#FFE590","#FEB852","#FEA546","#FFFFCC","#FFF9BD","#FFFFCC","#FFFFCC","#FFF0A6","#FFFFCC","#FFF9BE","#FFFCC5","#FE9740","#FFF3B0","#FEA647","#FFF7B8","#FFEFA4","#FEDD7E","#FEB14C","#FFF4B0","#FFF5B4","#FEBA54","#800026","#FFEFA4","#FFFCC4","#FFF0A7","#FED975","#FFE998","#FFFDC7","#FFEFA5","#FFF3AE","#FFE896","#FFE084","#FFF4B2","#FFF7BA","#FFFFCC","#FFFFCC","#FFF4B1","#FFFEC9","#FFF9BE","#FFE48E","#FFFBC2","#FFFFCC","#FFF8BB","#FFBD58","#FFFFCC"],"fillOpacity":1},null,null,["Village: Bandawa<br>Size: 687-1000<br>Participants: 156<br>Number Positive: 8<br>Proportion Positive: 0.05","Village: Bendu<br>Size: 376-686<br>Participants: 165<br>Number Positive: 32<br>Proportion Positive: 0.19","Village: Benduma<br>Size: 376-686<br>Participants: 156<br>Number Positive: 30<br>Proportion Positive: 0.19","Village: Dodo<br>Size: 65-375<br>Participants: 184<br>Number Positive: 8<br>Proportion Positive: 0.04","Village: Fala Wandor<br>Size: 65-375<br>Participants: 173<br>Number Positive: 12<br>Proportion Positive: 0.07","Village: Foindu<br>Size: 687-1000<br>Participants: 180<br>Number Positive: 64<br>Proportion Positive: 0.36","Village: Gandahun<br>Size: 65-375<br>Participants: 203<br>Number Positive: 43<br>Proportion Positive: 0.21","Village: Gawama<br>Size: 65-375<br>Participants: 170<br>Number Positive: 4<br>Proportion Positive: 0.02","Village: Guaba<br>Size: 65-375<br>Participants: 96<br>Number Positive: 78<br>Proportion Positive: 0.81","Village: Kokoru<br>Size: 376-686<br>Participants: 142<br>Number Positive: 0<br>Proportion Positive: 0","Village: Komendeh<br>Size: 65-375<br>Participants: 137<br>Number Positive: 20<br>Proportion Positive: 0.15","Village: Komoru<br>Size: 65-375<br>Participants: 177<br>Number Positive: 10<br>Proportion Positive: 0.06","Village: Konia<br>Size: 376-686<br>Participants: 119<br>Number Positive: 49<br>Proportion Positive: 0.41","Village: Kpalepalu<br>Size: 376-686<br>Participants: 238<br>Number Positive: 33<br>Proportion Positive: 0.14","Village: Kpallu<br>Size: 65-375<br>Participants: 223<br>Number Positive: 1<br>Proportion Positive: 0","Village: Kpava<br>Size: 65-375<br>Participants: 119<br>Number Positive: 2<br>Proportion Positive: 0.02","Village: Kpetema<br>Size: 376-686<br>Participants: 203<br>Number Positive: 169<br>Proportion Positive: 0.83","Village: Maleh<br>Size: 65-375<br>Participants: 240<br>Number Positive: 16<br>Proportion Positive: 0.07","Village: Masihun<br>Size: 376-686<br>Participants: 203<br>Number Positive: 0<br>Proportion Positive: 0","Village: Massahun<br>Size: 65-375<br>Participants: 96<br>Number Positive: 10<br>Proportion Positive: 0.1","Village: Ngeihun<br>Size: 376-686<br>Participants: 239<br>Number Positive: 84<br>Proportion Positive: 0.35","Village: Njorpowahun<br>Size: 65-375<br>Participants: 57<br>Number Positive: 24<br>Proportion Positive: 0.42","Village: Patama<br>Size: 65-375<br>Participants: 234<br>Number Positive: 19<br>Proportion Positive: 0.08","Village: Sandaru<br>Size: 376-686<br>Participants: 132<br>Number Positive: 6<br>Proportion Positive: 0.05","Village: Sawula<br>Size: 376-686<br>Participants: 232<br>Number Positive: 9<br>Proportion Positive: 0.04","Village: Sendimei<br>Size: 376-686<br>Participants: 156<br>Number Positive: 14<br>Proportion Positive: 0.09","Village: Talia<br>Size: 687-1000<br>Participants: 176<br>Number Positive: 62<br>Proportion Positive: 0.35","Village: Tangahun<br>Size: 65-375<br>Participants: 131<br>Number Positive: 12<br>Proportion Positive: 0.09","Village: Tobanda<br>Size: 65-375<br>Participants: 215<br>Number Positive: 110<br>Proportion Positive: 0.51","Village: Yumbuma<br>Size: 376-686<br>Participants: 216<br>Number Positive: 111<br>Proportion Positive: 0.51","Village: Conakry-Dee<br>Size: 65-375<br>Participants: 120<br>Number Positive: 0<br>Proportion Positive: 0","Village: Gbaria-Mamaki<br>Size: 65-375<br>Participants: 84<br>Number Positive: 9<br>Proportion Positive: 0.11","Village: Gbogbodo<br>Size: 65-375<br>Participants: 64<br>Number Positive: 14<br>Proportion Positive: 0.22","Village: Hamdalai<br>Size: 65-375<br>Participants: 82<br>Number Positive: 61<br>Proportion Positive: 0.74","Village: Kamasondo<br>Size: 376-686<br>Participants: 132<br>Number Positive: 40<br>Proportion Positive: 0.3","Village: Kofondu<br>Size: 65-375<br>Participants: 38<br>Number Positive: 3<br>Proportion Positive: 0.08","Village: Mabureh-Buya<br>Size: 65-375<br>Participants: 61<br>Number Positive: 3<br>Proportion Positive: 0.05","Village: Madina<br>Size: 65-375<br>Participants: 59<br>Number Positive: 9<br>Proportion Positive: 0.15","Village: Mafundu<br>Size: 65-375<br>Participants: 114<br>Number Positive: 36<br>Proportion Positive: 0.32","Village: Magbelai<br>Size: 65-375<br>Participants: 108<br>Number Positive: 40<br>Proportion Positive: 0.37","Village: Magbontho<br>Size: 65-375<br>Participants: 84<br>Number Positive: 0<br>Proportion Positive: 0","Village: Malal Rotain<br>Size: 65-375<br>Participants: 82<br>Number Positive: 3<br>Proportion Positive: 0.04","Village: Mamankie<br>Size: 65-375<br>Participants: 81<br>Number Positive: 0<br>Proportion Positive: 0","Village: Mamankie 2<br>Size: 687-1000<br>Participants: 156<br>Number Positive: 0<br>Proportion Positive: 0","Village: Mana 2<br>Size: 65-375<br>Participants: 95<br>Number Positive: 9<br>Proportion Positive: 0.09","Village: Mange Bureh<br>Size: 687-1000<br>Participants: 189<br>Number Positive: 0<br>Proportion Positive: 0","Village: Mange Morie<br>Size: 65-375<br>Participants: 143<br>Number Positive: 5<br>Proportion Positive: 0.03","Village: Mapawa<br>Size: 376-686<br>Participants: 112<br>Number Positive: 2<br>Proportion Positive: 0.02","Village: Maron<br>Size: 65-375<br>Participants: 34<br>Number Positive: 14<br>Proportion Positive: 0.41","Village: Minthormore<br>Size: 65-375<br>Participants: 155<br>Number Positive: 11<br>Proportion Positive: 0.07","Village: Patifu<br>Size: 65-375<br>Participants: 95<br>Number Positive: 35<br>Proportion Positive: 0.37","Village: Robanka<br>Size: 65-375<br>Participants: 59<br>Number Positive: 3<br>Proportion Positive: 0.05","Village: Ropolon<br>Size: 65-375<br>Participants: 60<br>Number Positive: 6<br>Proportion Positive: 0.1","Village: Samkoya<br>Size: 65-375<br>Participants: 35<br>Number Positive: 7<br>Proportion Positive: 0.2","Village: Yankoro<br>Size: 65-375<br>Participants: 36<br>Number Positive: 12<br>Proportion Positive: 0.33","Village: Goindema<br>Size: 65-375<br>Participants: 72<br>Number Positive: 5<br>Proportion Positive: 0.07","Village: Kamankay<br>Size: 65-375<br>Participants: 98<br>Number Positive: 6<br>Proportion Positive: 0.06","Village: Kangida<br>Size: 65-375<br>Participants: 71<br>Number Positive: 22<br>Proportion Positive: 0.31","Village: Mabathof<br>Size: 65-375<br>Participants: 120<br>Number Positive: 106<br>Proportion Positive: 0.88","Village: Mafanta<br>Size: 65-375<br>Participants: 129<br>Number Positive: 13<br>Proportion Positive: 0.1","Village: Maforaka<br>Size: 65-375<br>Participants: 96<br>Number Positive: 2<br>Proportion Positive: 0.02","Village: Magbonka<br>Size: 65-375<br>Participants: 65<br>Number Positive: 6<br>Proportion Positive: 0.09","Village: Magbonko<br>Size: 65-375<br>Participants: 81<br>Number Positive: 18<br>Proportion Positive: 0.22","Village: Makil-Bana<br>Size: 65-375<br>Participants: 113<br>Number Positive: 15<br>Proportion Positive: 0.13","Village: Manenpeh<br>Size: 687-1000<br>Participants: 168<br>Number Positive: 2<br>Proportion Positive: 0.01","Village: Mange Bo Road<br>Size: 376-686<br>Participants: 142<br>Number Positive: 14<br>Proportion Positive: 0.1","Village: Maraka<br>Size: 65-375<br>Participants: 108<br>Number Positive: 8<br>Proportion Positive: 0.07","Village: Masana<br>Size: 65-375<br>Participants: 59<br>Number Positive: 8<br>Proportion Positive: 0.14","Village: Masonsingbi<br>Size: 376-686<br>Participants: 120<br>Number Positive: 22<br>Proportion Positive: 0.18","Village: Masorie<br>Size: 65-375<br>Participants: 108<br>Number Positive: 7<br>Proportion Positive: 0.06","Village: Massanga<br>Size: 65-375<br>Participants: 131<br>Number Positive: 6<br>Proportion Positive: 0.05","Village: Matainkay<br>Size: 687-1000<br>Participants: 168<br>Number Positive: 0<br>Proportion Positive: 0","Village: Matal<br>Size: 65-375<br>Participants: 100<br>Number Positive: 0<br>Proportion Positive: 0","Village: Mathafulie<br>Size: 376-686<br>Participants: 120<br>Number Positive: 8<br>Proportion Positive: 0.07","Village: Mathan<br>Size: 376-686<br>Participants: 119<br>Number Positive: 1<br>Proportion Positive: 0.01","Village: Mathora<br>Size: 376-686<br>Participants: 166<br>Number Positive: 6<br>Proportion Positive: 0.04","Village: Mayan<br>Size: 65-375<br>Participants: 120<br>Number Positive: 19<br>Proportion Positive: 0.16","Village: Robal<br>Size: 687-1000<br>Participants: 167<br>Number Positive: 4<br>Proportion Positive: 0.02","Village: Robonkay<br>Size: 65-375<br>Participants: 144<br>Number Positive: 0<br>Proportion Positive: 0","Village: Rogbenthenel<br>Size: 65-375<br>Participants: 120<br>Number Positive: 5<br>Proportion Positive: 0.04","Village: Romangoro<br>Size: 65-375<br>Participants: 120<br>Number Positive: 36<br>Proportion Positive: 0.3","Village: Rowaka<br>Size: 65-375<br>Participants: 171<br>Number Positive: 0<br>Proportion Positive: 0"],null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addCircleMarkers","args":[[7.762661,8.098046,8.231721,8.154537,8.282319,8.104974,7.616507,8.231582,8.175211,7.630865,8.061616,7.995187,8.106163,8.323698,7.907588,7.892324,8.274488,7.898208,7.847216,8.051014,8.174653,7.744658,7.757858,7.769912,7.953218,7.712857,8.048327,8.186889,7.80875,8.12103,8.698279,8.691447,8.725511,8.760678,8.870712,8.896977,8.868382,8.900728,8.941122,8.470298,8.475743,8.907392,8.562514,8.566092,8.713723,8.920821,8.922138,8.579579,8.726211,9.014186,8.791904,8.731459,8.883433,8.7068,8.914929,8.584283,8.773874,8.757046,8.643569,8.685366,8.63644,8.785286,8.860883,8.696487,8.668915,8.645331,8.757134,8.668719,8.635849,8.468829,8.74794,8.714903,8.701285,8.6353,8.767533,8.73444,8.658053,8.696331,8.634413,8.741888,8.757152,8.631235],[-11.36658,-10.970994,-10.890665,-11.17158,-11.379355,-11.055531,-11.446048,-11.343562,-11.20012,-11.11798,-10.996173,-11.083379,-11.010608,-11.370818,-11.085342,-11.131801,-11.074731,-11.046249,-11.117803,-10.968487,-11.085466,-11.04871,-11.078438,-11.041639,-11.31145,-11.388466,-11.033974,-11.200752,-11.368307,-11.009368,-13.239524,-12.692198,-12.959058,-12.472747,-12.513812,-12.836979,-12.477709,-12.508055,-12.857576,-12.655005,-12.648131,-12.875606,-13.130782,-13.143895,-12.969454,-12.855978,-12.857411,-13.143377,-12.687446,-12.827678,-12.843518,-12.719125,-12.493767,-13.239553,-12.856997,-11.427915,-11.852921,-11.966604,-11.502716,-11.931459,-11.831444,-11.871397,-11.813135,-11.921544,-11.922364,-11.84615,-11.886451,-11.883029,-11.474979,-12.205451,-11.839153,-11.902135,-11.938828,-11.902604,-11.876654,-11.903496,-11.891744,-11.921455,-11.445015,-11.89697,-11.886355,-11.700727],4,null,"Number Positive",{"interactive":true,"className":"","stroke":true,"color":["#000000","#BEBEBE","#BEBEBE","#D3D3D3","#D3D3D3","#000000","#D3D3D3","#D3D3D3","#D3D3D3","#BEBEBE","#D3D3D3","#D3D3D3","#BEBEBE","#BEBEBE","#D3D3D3","#D3D3D3","#BEBEBE","#D3D3D3","#BEBEBE","#D3D3D3","#BEBEBE","#D3D3D3","#D3D3D3","#BEBEBE","#BEBEBE","#BEBEBE","#000000","#D3D3D3","#D3D3D3","#BEBEBE","#D3D3D3","#D3D3D3","#D3D3D3","#D3D3D3","#BEBEBE","#D3D3D3","#D3D3D3","#D3D3D3","#D3D3D3","#D3D3D3","#D3D3D3","#D3D3D3","#D3D3D3","#000000","#D3D3D3","#000000","#D3D3D3","#BEBEBE","#D3D3D3","#D3D3D3","#D3D3D3","#D3D3D3","#D3D3D3","#D3D3D3","#D3D3D3","#D3D3D3","#D3D3D3","#D3D3D3","#D3D3D3","#D3D3D3","#D3D3D3","#D3D3D3","#D3D3D3","#D3D3D3","#000000","#BEBEBE","#D3D3D3","#D3D3D3","#BEBEBE","#D3D3D3","#D3D3D3","#000000","#D3D3D3","#BEBEBE","#BEBEBE","#BEBEBE","#D3D3D3","#000000","#D3D3D3","#D3D3D3","#D3D3D3","#D3D3D3"],"weight":1,"opacity":1,"fill":true,"fillColor":["#461563","#424184","#433D82","#461563","#471C6B","#2E738E","#3C538A","#450B5B","#26868D","#440154","#482A79","#471967","#385C8C","#414285","#440356","#450658","#FDE725","#482373","#440154","#471967","#258F8C","#46327D","#482878","#46105F","#471765","#48206F","#2F708E","#471C6B","#33B37B","#34B57B","#440154","#471765","#48206F","#2F6E8E","#3D4E8A","#45095A","#45095A","#471765","#3F4788","#3D4E8A","#440154","#45095A","#440154","#440154","#471765","#440154","#460E5D","#450658","#48206F","#471A69","#404687","#45095A","#46105F","#461261","#471C6B","#460E5D","#46105F","#472E7B","#2FAE7F","#471E6D","#450658","#46105F","#482776","#482271","#450658","#48206F","#461563","#461563","#472E7B","#461261","#46105F","#440154","#440154","#461563","#440356","#46105F","#482878","#450B5B","#440154","#460E5D","#3F4788","#440154"],"fillOpacity":1},null,null,["Village: Bandawa<\/br>Size: 687-1000<\/br>Participants: 156<\/br>Number Positive: 8<\/br>Proportion Positive: 0.05","Village: Bendu<\/br>Size: 376-686<\/br>Participants: 165<\/br>Number Positive: 32<\/br>Proportion Positive: 0.19","Village: Benduma<\/br>Size: 376-686<\/br>Participants: 156<\/br>Number Positive: 30<\/br>Proportion Positive: 0.19","Village: Dodo<\/br>Size: 65-375<\/br>Participants: 184<\/br>Number Positive: 8<\/br>Proportion Positive: 0.04","Village: Fala Wandor<\/br>Size: 65-375<\/br>Participants: 173<\/br>Number Positive: 12<\/br>Proportion Positive: 0.07","Village: Foindu<\/br>Size: 687-1000<\/br>Participants: 180<\/br>Number Positive: 64<\/br>Proportion Positive: 0.36","Village: Gandahun<\/br>Size: 65-375<\/br>Participants: 203<\/br>Number Positive: 43<\/br>Proportion Positive: 0.21","Village: Gawama<\/br>Size: 65-375<\/br>Participants: 170<\/br>Number Positive: 4<\/br>Proportion Positive: 0.02","Village: Guaba<\/br>Size: 65-375<\/br>Participants: 96<\/br>Number Positive: 78<\/br>Proportion Positive: 0.81","Village: Kokoru<\/br>Size: 376-686<\/br>Participants: 142<\/br>Number Positive: 0<\/br>Proportion Positive: 0","Village: Komendeh<\/br>Size: 65-375<\/br>Participants: 137<\/br>Number Positive: 20<\/br>Proportion Positive: 0.15","Village: Komoru<\/br>Size: 65-375<\/br>Participants: 177<\/br>Number Positive: 10<\/br>Proportion Positive: 0.06","Village: Konia<\/br>Size: 376-686<\/br>Participants: 119<\/br>Number Positive: 49<\/br>Proportion Positive: 0.41","Village: Kpalepalu<\/br>Size: 376-686<\/br>Participants: 238<\/br>Number Positive: 33<\/br>Proportion Positive: 0.14","Village: Kpallu<\/br>Size: 65-375<\/br>Participants: 223<\/br>Number Positive: 1<\/br>Proportion Positive: 0","Village: Kpava<\/br>Size: 65-375<\/br>Participants: 119<\/br>Number Positive: 2<\/br>Proportion Positive: 0.02","Village: Kpetema<\/br>Size: 376-686<\/br>Participants: 203<\/br>Number Positive: 169<\/br>Proportion Positive: 0.83","Village: Maleh<\/br>Size: 65-375<\/br>Participants: 240<\/br>Number Positive: 16<\/br>Proportion Positive: 0.07","Village: Masihun<\/br>Size: 376-686<\/br>Participants: 203<\/br>Number Positive: 0<\/br>Proportion Positive: 0","Village: Massahun<\/br>Size: 65-375<\/br>Participants: 96<\/br>Number Positive: 10<\/br>Proportion Positive: 0.1","Village: Ngeihun<\/br>Size: 376-686<\/br>Participants: 239<\/br>Number Positive: 84<\/br>Proportion Positive: 0.35","Village: Njorpowahun<\/br>Size: 65-375<\/br>Participants: 57<\/br>Number Positive: 24<\/br>Proportion Positive: 0.42","Village: Patama<\/br>Size: 65-375<\/br>Participants: 234<\/br>Number Positive: 19<\/br>Proportion Positive: 0.08","Village: Sandaru<\/br>Size: 376-686<\/br>Participants: 132<\/br>Number Positive: 6<\/br>Proportion Positive: 0.05","Village: Sawula<\/br>Size: 376-686<\/br>Participants: 232<\/br>Number Positive: 9<\/br>Proportion Positive: 0.04","Village: Sendimei<\/br>Size: 376-686<\/br>Participants: 156<\/br>Number Positive: 14<\/br>Proportion Positive: 0.09","Village: Talia<\/br>Size: 687-1000<\/br>Participants: 176<\/br>Number Positive: 62<\/br>Proportion Positive: 0.35","Village: Tangahun<\/br>Size: 65-375<\/br>Participants: 131<\/br>Number Positive: 12<\/br>Proportion Positive: 0.09","Village: Tobanda<\/br>Size: 65-375<\/br>Participants: 215<\/br>Number Positive: 110<\/br>Proportion Positive: 0.51","Village: Yumbuma<\/br>Size: 376-686<\/br>Participants: 216<\/br>Number Positive: 111<\/br>Proportion Positive: 0.51","Village: Conakry-Dee<\/br>Size: 65-375<\/br>Participants: 120<\/br>Number Positive: 0<\/br>Proportion Positive: 0","Village: Gbaria-Mamaki<\/br>Size: 65-375<\/br>Participants: 84<\/br>Number Positive: 9<\/br>Proportion Positive: 0.11","Village: Gbogbodo<\/br>Size: 65-375<\/br>Participants: 64<\/br>Number Positive: 14<\/br>Proportion Positive: 0.22","Village: Hamdalai<\/br>Size: 65-375<\/br>Participants: 82<\/br>Number Positive: 61<\/br>Proportion Positive: 0.74","Village: Kamasondo<\/br>Size: 376-686<\/br>Participants: 132<\/br>Number Positive: 40<\/br>Proportion Positive: 0.3","Village: Kofondu<\/br>Size: 65-375<\/br>Participants: 38<\/br>Number Positive: 3<\/br>Proportion Positive: 0.08","Village: Mabureh-Buya<\/br>Size: 65-375<\/br>Participants: 61<\/br>Number Positive: 3<\/br>Proportion Positive: 0.05","Village: Madina<\/br>Size: 65-375<\/br>Participants: 59<\/br>Number Positive: 9<\/br>Proportion Positive: 0.15","Village: Mafundu<\/br>Size: 65-375<\/br>Participants: 114<\/br>Number Positive: 36<\/br>Proportion Positive: 0.32","Village: Magbelai<\/br>Size: 65-375<\/br>Participants: 108<\/br>Number Positive: 40<\/br>Proportion Positive: 0.37","Village: Magbontho<\/br>Size: 65-375<\/br>Participants: 84<\/br>Number Positive: 0<\/br>Proportion Positive: 0","Village: Malal Rotain<\/br>Size: 65-375<\/br>Participants: 82<\/br>Number Positive: 3<\/br>Proportion Positive: 0.04","Village: Mamankie<\/br>Size: 65-375<\/br>Participants: 81<\/br>Number Positive: 0<\/br>Proportion Positive: 0","Village: Mamankie 2<\/br>Size: 687-1000<\/br>Participants: 156<\/br>Number Positive: 0<\/br>Proportion Positive: 0","Village: Mana 2<\/br>Size: 65-375<\/br>Participants: 95<\/br>Number Positive: 9<\/br>Proportion Positive: 0.09","Village: Mange Bureh<\/br>Size: 687-1000<\/br>Participants: 189<\/br>Number Positive: 0<\/br>Proportion Positive: 0","Village: Mange Morie<\/br>Size: 65-375<\/br>Participants: 143<\/br>Number Positive: 5<\/br>Proportion Positive: 0.03","Village: Mapawa<\/br>Size: 376-686<\/br>Participants: 112<\/br>Number Positive: 2<\/br>Proportion Positive: 0.02","Village: Maron<\/br>Size: 65-375<\/br>Participants: 34<\/br>Number Positive: 14<\/br>Proportion Positive: 0.41","Village: Minthormore<\/br>Size: 65-375<\/br>Participants: 155<\/br>Number Positive: 11<\/br>Proportion Positive: 0.07","Village: Patifu<\/br>Size: 65-375<\/br>Participants: 95<\/br>Number Positive: 35<\/br>Proportion Positive: 0.37","Village: Robanka<\/br>Size: 65-375<\/br>Participants: 59<\/br>Number Positive: 3<\/br>Proportion Positive: 0.05","Village: Ropolon<\/br>Size: 65-375<\/br>Participants: 60<\/br>Number Positive: 6<\/br>Proportion Positive: 0.1","Village: Samkoya<\/br>Size: 65-375<\/br>Participants: 35<\/br>Number Positive: 7<\/br>Proportion Positive: 0.2","Village: Yankoro<\/br>Size: 65-375<\/br>Participants: 36<\/br>Number Positive: 12<\/br>Proportion Positive: 0.33","Village: Goindema<\/br>Size: 65-375<\/br>Participants: 72<\/br>Number Positive: 5<\/br>Proportion Positive: 0.07","Village: Kamankay<\/br>Size: 65-375<\/br>Participants: 98<\/br>Number Positive: 6<\/br>Proportion Positive: 0.06","Village: Kangida<\/br>Size: 65-375<\/br>Participants: 71<\/br>Number Positive: 22<\/br>Proportion Positive: 0.31","Village: Mabathof<\/br>Size: 65-375<\/br>Participants: 120<\/br>Number Positive: 106<\/br>Proportion Positive: 0.88","Village: Mafanta<\/br>Size: 65-375<\/br>Participants: 129<\/br>Number Positive: 13<\/br>Proportion Positive: 0.1","Village: Maforaka<\/br>Size: 65-375<\/br>Participants: 96<\/br>Number Positive: 2<\/br>Proportion Positive: 0.02","Village: Magbonka<\/br>Size: 65-375<\/br>Participants: 65<\/br>Number Positive: 6<\/br>Proportion Positive: 0.09","Village: Magbonko<\/br>Size: 65-375<\/br>Participants: 81<\/br>Number Positive: 18<\/br>Proportion Positive: 0.22","Village: Makil-Bana<\/br>Size: 65-375<\/br>Participants: 113<\/br>Number Positive: 15<\/br>Proportion Positive: 0.13","Village: Manenpeh<\/br>Size: 687-1000<\/br>Participants: 168<\/br>Number Positive: 2<\/br>Proportion Positive: 0.01","Village: Mange Bo Road<\/br>Size: 376-686<\/br>Participants: 142<\/br>Number Positive: 14<\/br>Proportion Positive: 0.1","Village: Maraka<\/br>Size: 65-375<\/br>Participants: 108<\/br>Number Positive: 8<\/br>Proportion Positive: 0.07","Village: Masana<\/br>Size: 65-375<\/br>Participants: 59<\/br>Number Positive: 8<\/br>Proportion Positive: 0.14","Village: Masonsingbi<\/br>Size: 376-686<\/br>Participants: 120<\/br>Number Positive: 22<\/br>Proportion Positive: 0.18","Village: Masorie<\/br>Size: 65-375<\/br>Participants: 108<\/br>Number Positive: 7<\/br>Proportion Positive: 0.06","Village: Massanga<\/br>Size: 65-375<\/br>Participants: 131<\/br>Number Positive: 6<\/br>Proportion Positive: 0.05","Village: Matainkay<\/br>Size: 687-1000<\/br>Participants: 168<\/br>Number Positive: 0<\/br>Proportion Positive: 0","Village: Matal<\/br>Size: 65-375<\/br>Participants: 100<\/br>Number Positive: 0<\/br>Proportion Positive: 0","Village: Mathafulie<\/br>Size: 376-686<\/br>Participants: 120<\/br>Number Positive: 8<\/br>Proportion Positive: 0.07","Village: Mathan<\/br>Size: 376-686<\/br>Participants: 119<\/br>Number Positive: 1<\/br>Proportion Positive: 0.01","Village: Mathora<\/br>Size: 376-686<\/br>Participants: 166<\/br>Number Positive: 6<\/br>Proportion Positive: 0.04","Village: Mayan<\/br>Size: 65-375<\/br>Participants: 120<\/br>Number Positive: 19<\/br>Proportion Positive: 0.16","Village: Robal<\/br>Size: 687-1000<\/br>Participants: 167<\/br>Number Positive: 4<\/br>Proportion Positive: 0.02","Village: Robonkay<\/br>Size: 65-375<\/br>Participants: 144<\/br>Number Positive: 0<\/br>Proportion Positive: 0","Village: Rogbenthenel<\/br>Size: 65-375<\/br>Participants: 120<\/br>Number Positive: 5<\/br>Proportion Positive: 0.04","Village: Romangoro<\/br>Size: 65-375<\/br>Participants: 120<\/br>Number Positive: 36<\/br>Proportion Positive: 0.3","Village: Rowaka<\/br>Size: 65-375<\/br>Participants: 171<\/br>Number Positive: 0<\/br>Proportion Positive: 0"],null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addLayersControl","args":[[],["Proportion Positive","Number Positive"],{"collapsed":false,"autoZIndex":true,"position":"topright"}]},{"method":"addLegend","args":[{"colors":["#FFFFCC","#FEDD7E","#FE9B42","#F13B24","#AE0026","#808080"],"labels":[0,0.2,0.4,0.6,0.8,1],"na_color":null,"na_label":"NA","opacity":0.5,"position":"bottomright","type":"unknown","title":"Proportion Positive","extra":null,"layerId":null,"className":"info legend","group":"Proportion Positive"}]},{"method":"addLegend","args":[{"colors":["#440154","#3C528A","#25908C","#62C762","#FDE725"],"labels":[0,50,100,150,200],"na_color":null,"na_label":"NA","opacity":1,"position":"bottomright","type":"unknown","title":"Number Positive","extra":null,"layerId":null,"className":"info legend","group":"Number Positive"}]},{"method":"hideGroup","args":["Number Positive"]}],"limits":{"lat":[7.616507,9.014186],"lng":[-13.239553,-10.890665]}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>There is substantial variability in the number and proportion of seropositive individuals across villages and districts. This heterogeneity effectively masks any age stratified trends in seroprevalence when communities are aggregated at the district level.</p>
+<div class="cell page-columns page-full">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sero, <span class="fu">aes</span>(<span class="at">x =</span> village, <span class="at">fill =</span> iggfinal)) <span class="sc">+</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> district, <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Count of positive and negative Lassa IgG"</span>) <span class="sc">+</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display column-page-right">
+<p><img src="main_files/figure-html/aggregated-serology-1.png" class="img-fluid" width="960"></p>
+</div>
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sero, <span class="fu">aes</span>(<span class="at">x =</span> age_cat, <span class="at">fill =</span> iggfinal)) <span class="sc">+</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"fill"</span>) <span class="sc">+</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> district, <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Proportion of positive and negative Lassa IgG"</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Proportion"</span>) <span class="sc">+</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display column-page-right">
+<p><img src="main_files/figure-html/aggregated-serology-2.png" class="img-fluid" width="960"></p>
+</div>
+</div>
+<section id="chiefdom-level-aggregation" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="chiefdom-level-aggregation">Chiefdom level aggregation</h3>
+<p>If we look at the chiefdom level we still see the same issues with aggregation and therefore a higher spatial resolution of village level is probably the only way we can asses age-stratified seroprevalence trends.</p>
+<div class="cell page-columns page-full">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Kenema district chiefdom aggregated age stratified seroprevalence</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sero <span class="sc">%&gt;%</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>         <span class="fu">filter</span>(district <span class="sc">==</span> <span class="st">"Kenema"</span>), <span class="fu">aes</span>(<span class="at">x =</span> age_cat, <span class="at">fill =</span> iggfinal)) <span class="sc">+</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"fill"</span>) <span class="sc">+</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> chiefdom, <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Kenema - Chiefdom"</span>,</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">"N = 5165"</span>,</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Proportion"</span>) <span class="sc">+</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display column-page-right">
+<p><img src="main_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="960"></p>
+</div>
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tonkolili district chiefdom aggregated age stratified seroprevalence</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sero <span class="sc">%&gt;%</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>         <span class="fu">filter</span>(district <span class="sc">==</span> <span class="st">"Tonkolili"</span>), <span class="fu">aes</span>(<span class="at">x =</span> age_cat, <span class="at">fill =</span> iggfinal)) <span class="sc">+</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"fill"</span>) <span class="sc">+</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> chiefdom, <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Tonkolili - Chiefdom"</span>,</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">"N = 3196"</span>,</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Proportion"</span>) <span class="sc">+</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display column-page-right">
+<p><img src="main_files/figure-html/unnamed-chunk-1-2.png" class="img-fluid" width="960"></p>
+</div>
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Port Loko district chiefdom aggregated age stratified seroprevalence</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sero <span class="sc">%&gt;%</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>         <span class="fu">filter</span>(district <span class="sc">==</span> <span class="st">"Port Loko"</span>), <span class="fu">aes</span>(<span class="at">x =</span> age_cat, <span class="at">fill =</span> iggfinal)) <span class="sc">+</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"fill"</span>) <span class="sc">+</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> chiefdom, <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Port Loki - Chiefdom"</span>,</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">"N = 2278"</span>,</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Proportion"</span>) <span class="sc">+</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display column-page-right">
+<p><img src="main_files/figure-html/unnamed-chunk-1-3.png" class="img-fluid" width="960"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="village-level---kenema" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="village-level---kenema">Village level - Kenema</h2>
+<p>Once we get down to the village level we are faced with other issues such as small sample sizes and low seropositivity. Perhaps we can select several of these villages to represent exemplar trends in seropositivity in a highly endemic district.</p>
+<div class="cell page-columns page-full">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Villages with at least one positive sample</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>kenema_vil_pos <span class="ot">&lt;-</span> sero <span class="sc">%&gt;%</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(district <span class="sc">==</span> <span class="st">"Kenema"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(village, iggfinal) <span class="sc">%&gt;%</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(iggfinal <span class="sc">==</span> <span class="st">"Positive"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(village) <span class="sc">%&gt;%</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.character</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'village'. You can override using the
+`.groups` argument.</code></pre>
+</div>
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Kenema district village aggregated age stratified seroprevalence</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sero <span class="sc">%&gt;%</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>         <span class="fu">filter</span>(district <span class="sc">==</span> <span class="st">"Kenema"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>         <span class="fu">filter</span>(village <span class="sc">%in%</span> kenema_vil_pos) <span class="sc">%&gt;%</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>         <span class="fu">group_by</span>(village) <span class="sc">%&gt;%</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>         <span class="fu">mutate</span>(<span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">village =</span> <span class="fu">paste0</span>(village, <span class="st">": N ="</span>, n)),</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> age_cat, <span class="at">fill =</span> iggfinal)) <span class="sc">+</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"fill"</span>) <span class="sc">+</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> village, <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Kenema - Village"</span>,</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">"Limited to villages with at least one seropositive sample"</span>,</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Age"</span>,</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Proportion"</span>) <span class="sc">+</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display column-page-right">
+<p><img src="main_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="960"></p>
+</div>
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Kenema district village aggregated continuous age stratified seroprevalence</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>sero <span class="sc">%&gt;%</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(district <span class="sc">==</span> <span class="st">"Kenema"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(village) <span class="sc">%&gt;%</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">village =</span> <span class="fu">paste0</span>(village, <span class="st">": N = "</span>, n),</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">age_en =</span> <span class="fu">case_when</span>(age_en <span class="sc">&lt;=</span> <span class="dv">1</span> <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>                            age_en <span class="sc">==</span> <span class="fl">2.5</span> <span class="sc">~</span> <span class="dv">3</span>,</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>                            <span class="cn">TRUE</span> <span class="sc">~</span> age_en)) <span class="sc">%&gt;%</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(village, age_en, iggfinal) <span class="sc">%&gt;%</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n_sero =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(village, age_en) <span class="sc">%&gt;%</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">prop_seropositive =</span>  <span class="fu">sum</span>(iggfinal <span class="sc">==</span> <span class="st">"Positive"</span>) <span class="sc">/</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> age_en, <span class="at">y =</span> prop_seropositive, <span class="at">size =</span> n_sero)) <span class="sc">+</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> village, <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Kenema - Village"</span>,</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Proportion"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'village', 'age_en'. You can override using
+the `.groups` argument.</code></pre>
+</div>
+<div class="cell-output-display column-page-right">
+<p><img src="main_files/figure-html/unnamed-chunk-2-2.png" class="img-fluid" width="960"></p>
+</div>
+</div>
+<p>For example the villages of Ngeihun, Talia, Bendu and Konia may be demonstrating increasing seroprevalence with age. While the villages of Kpetema, Gueba, Patama and Tobanda may be showing similar seroprevalence across ages. We may also have some villages showing decline seroprevalence with age Gandehun and Yamabama. This may represent three trends we can focus on.</p>
+<section id="kenema---increasing" class="level3">
+<h3 class="anchored" data-anchor-id="kenema---increasing">Kenema - Increasing</h3>
+</section>
+<section id="kenema---similar" class="level3">
+<h3 class="anchored" data-anchor-id="kenema---similar">Kenema - Similar</h3>
+</section>
+<section id="kenema---decreasing" class="level3">
+<h3 class="anchored" data-anchor-id="kenema---decreasing">Kenema - Decreasing</h3>
+</section>
+</section>
+<section id="village-level---tonkoliki" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="village-level---tonkoliki">Village level - Tonkoliki</h2>
+<p>Tonkoliki is not considered highly endemic and the pattern of seropositivity at the village level does seem quite different from Kenema.</p>
+<div class="cell page-columns page-full">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Villages with at least one positive sample</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>tonkolili_vil_pos <span class="ot">&lt;-</span> sero <span class="sc">%&gt;%</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(district <span class="sc">==</span> <span class="st">"Tonkolili"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(village, iggfinal) <span class="sc">%&gt;%</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(iggfinal <span class="sc">==</span> <span class="st">"Positive"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(village) <span class="sc">%&gt;%</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.character</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'village'. You can override using the
+`.groups` argument.</code></pre>
+</div>
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tonkolili district village aggregated age stratified seroprevalence</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sero <span class="sc">%&gt;%</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>         <span class="fu">filter</span>(district <span class="sc">==</span> <span class="st">"Tonkolili"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>         <span class="fu">filter</span>(village <span class="sc">%in%</span> tonkolili_vil_pos) <span class="sc">%&gt;%</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>         <span class="fu">group_by</span>(village) <span class="sc">%&gt;%</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>         <span class="fu">mutate</span>(<span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">village =</span> <span class="fu">paste0</span>(village, <span class="st">": N ="</span>, n)),</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> age_cat, <span class="at">fill =</span> iggfinal)) <span class="sc">+</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"fill"</span>) <span class="sc">+</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> village, <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Tonkolili - Village"</span>,</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">"Limited to villages with at least one seropositive sample"</span>,</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Age"</span>,</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Proportion"</span>) <span class="sc">+</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display column-page-right">
+<p><img src="main_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="960"></p>
+</div>
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tonkolili district village aggregated continuous age stratified seroprevalence</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>sero <span class="sc">%&gt;%</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(district <span class="sc">==</span> <span class="st">"Tonkolili"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(village <span class="sc">%in%</span> tonkolili_vil_pos) <span class="sc">%&gt;%</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(village) <span class="sc">%&gt;%</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">village =</span> <span class="fu">paste0</span>(village, <span class="st">": N = "</span>, n),</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">age_en =</span> <span class="fu">case_when</span>(age_en <span class="sc">&lt;=</span> <span class="dv">1</span> <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>                            age_en <span class="sc">==</span> <span class="fl">2.5</span> <span class="sc">~</span> <span class="dv">3</span>,</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>                            <span class="cn">TRUE</span> <span class="sc">~</span> age_en)) <span class="sc">%&gt;%</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(village, age_en, iggfinal) <span class="sc">%&gt;%</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n_sero =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(village, age_en) <span class="sc">%&gt;%</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">prop_seropositive =</span>  <span class="fu">sum</span>(iggfinal <span class="sc">==</span> <span class="st">"Positive"</span>) <span class="sc">/</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> age_en, <span class="at">y =</span> prop_seropositive, <span class="at">size =</span> n_sero)) <span class="sc">+</span></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> village, <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Tonkolili - Village"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'village', 'age_en'. You can override using
+the `.groups` argument.</code></pre>
+</div>
+<div class="cell-output-display column-page-right">
+<p><img src="main_files/figure-html/unnamed-chunk-3-2.png" class="img-fluid" width="960"></p>
+</div>
+</div>
+<p>Here perhaps we have a more limited range of patterns with Mabathoff and Masonsingbi showing similar age stratified seroprevalence and declines in Kangida and Mayan.</p>
+<section id="tonkoliki---similar" class="level3">
+<h3 class="anchored" data-anchor-id="tonkoliki---similar">Tonkoliki - Similar</h3>
+</section>
+<section id="tonkoliki---declining" class="level3">
+<h3 class="anchored" data-anchor-id="tonkoliki---declining">Tonkoliki - Declining</h3>
+</section>
+</section>
+<section id="village-level---port-loko" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="village-level---port-loko">Village level - Port Loko</h2>
+<p>Another province not considered to be highly endemic.</p>
+<div class="cell page-columns page-full">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Villages with at least one positive sample</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>port_loko_vil_pos <span class="ot">&lt;-</span> sero <span class="sc">%&gt;%</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(district <span class="sc">==</span> <span class="st">"Port Loko"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(village, iggfinal) <span class="sc">%&gt;%</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(iggfinal <span class="sc">==</span> <span class="st">"Positive"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(village) <span class="sc">%&gt;%</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.character</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'village'. You can override using the
+`.groups` argument.</code></pre>
+</div>
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Port Loko district village aggregated age stratified seroprevalence</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sero <span class="sc">%&gt;%</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>         <span class="fu">filter</span>(district <span class="sc">==</span> <span class="st">"Port Loko"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>         <span class="fu">filter</span>(village <span class="sc">%in%</span> port_loko_vil_pos) <span class="sc">%&gt;%</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>         <span class="fu">group_by</span>(village) <span class="sc">%&gt;%</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>         <span class="fu">mutate</span>(<span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">village =</span> <span class="fu">paste0</span>(village, <span class="st">": N ="</span>, n)),</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> age_cat, <span class="at">fill =</span> iggfinal)) <span class="sc">+</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"fill"</span>) <span class="sc">+</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> village, <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Port Loko - Village"</span>,</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">"Limited to villages with at least one seropositive sample"</span>,</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Age"</span>,</span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Proportion"</span>) <span class="sc">+</span></span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display column-page-right">
+<p><img src="main_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="960"></p>
+</div>
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Port Loko district village aggregated continuous age stratified seroprevalence</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>sero <span class="sc">%&gt;%</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(district <span class="sc">==</span> <span class="st">"Port Loko"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(village <span class="sc">%in%</span> port_loko_vil_pos) <span class="sc">%&gt;%</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(village) <span class="sc">%&gt;%</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">village =</span> <span class="fu">paste0</span>(village, <span class="st">": N = "</span>, n),</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">age_en =</span> <span class="fu">case_when</span>(age_en <span class="sc">&lt;=</span> <span class="dv">1</span> <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>                            age_en <span class="sc">==</span> <span class="fl">2.5</span> <span class="sc">~</span> <span class="dv">3</span>,</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>                            <span class="cn">TRUE</span> <span class="sc">~</span> age_en)) <span class="sc">%&gt;%</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(village, age_en, iggfinal) <span class="sc">%&gt;%</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n_sero =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(village, age_en) <span class="sc">%&gt;%</span></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">prop_seropositive =</span>  <span class="fu">sum</span>(iggfinal <span class="sc">==</span> <span class="st">"Positive"</span>) <span class="sc">/</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> age_en, <span class="at">y =</span> prop_seropositive, <span class="at">size =</span> n_sero)) <span class="sc">+</span></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> village, <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Port Loko - Village"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'village', 'age_en'. You can override using
+the `.groups` argument.</code></pre>
+</div>
+<div class="cell-output-display column-page-right">
+<p><img src="main_files/figure-html/unnamed-chunk-4-2.png" class="img-fluid" width="960"></p>
+</div>
+</div>
+<p>Perhaps here trends of increasing age stratified seroprevalence from Mafundu and Patifu and similar in Hamdalai and Kamasondo.</p>
+<section id="port-loko---increasing" class="level3">
+<h3 class="anchored" data-anchor-id="port-loko---increasing">Port Loko - Increasing</h3>
+</section>
+<section id="port-loko---similar" class="level3">
+<h3 class="anchored" data-anchor-id="port-loko---similar">Port Loko - Similar</h3>
+</section>
+</section>
+<section id="rodent-and-pathogen-abundance-dynamics-that-can-reproduce-these-trends" class="level2">
+<h2 class="anchored" data-anchor-id="rodent-and-pathogen-abundance-dynamics-that-can-reproduce-these-trends">Rodent and Pathogen abundance dynamics that can reproduce these trends</h2>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
