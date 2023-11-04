@@ -10,7 +10,7 @@ toc: true
 
 ## Motivation
 
-I think there is an oversimplification in our understanding of the burden of Lassa fever disease in endemic settings. We are aware that outbreaks occur that are temporarally and spatially limited but this is ignored when the risk of Lassa fever is discussed at a national and regional scale. We are now beginning to get data on age stratified seroprevalence studies which can provide some information on whether the force of infection (i.e., the risk of spillover from rodent populations into humans) is time-varying or constant. This could help us understand whether the virus is continuously circulating in the reservoir host or if alternatively there are important temporal components and complexity to the risk of Lassa fever outbreaks.
+I think there is an oversimplification in our understanding of the burden of Lassa fever disease in endemic settings. We are aware that outbreaks occur that are temporally and spatially limited but this is ignored when the risk of Lassa fever is discussed at a national and regional scale. We are now beginning to get data on age stratified seroprevalence studies which can provide some information on whether the force of infection (i.e., the risk of spillover from rodent populations into humans) is time-varying or constant. This could help us understand whether the virus is continuously circulating in the reservoir host or if alternatively there are important temporal components and complexity to the risk of Lassa fever outbreaks.
 
 If the force of infection were approximately constant we'd expect fairly linear increase in seropositivity as time at risk increases. We'd see that as age increases the proportion of individuals converting from sero-negative to sero-positive increases at a constant rate. A complicating factor would be declining antibodies and therefore individuals becoming susceptible to reinfection or the inability to detect prior infection. I believe we could more effectively quantify this though, if this where to be an important factor. For example [Inferring time of infection from field data using dynamic models of antibody decay](https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/2041-210X.14165).
 
@@ -315,8 +315,6 @@ sero %>%
 
 
 ### Kenema - Similar/Complex
-
-The villages 
 
 ### Kenema - Decreasing
 
