@@ -1,5 +1,5 @@
 ---
-title: "David's awesome serology modelling idea"
+title: "Modelling FOI from serology"
 editor: source
 format:
   html:
@@ -208,7 +208,7 @@ ggplot(sero %>%
          filter(district == "Port Loko"), aes(x = age_cat, fill = iggfinal)) +
   geom_bar(position = "fill") +
   facet_wrap(~ chiefdom, scales = "free") +
-  labs(title = "Port Loki - Chiefdom",
+  labs(title = "Port Loko - Chiefdom",
        caption = "N = 2278",
        y = "Proportion") +
   coord_flip()
@@ -275,7 +275,7 @@ These villages demonstrate age-stratified serology that could be consistent with
 
 ```{r kenema-increasing}
 
-kenema_vil_inc <- c("Ngeihun", "Talia", "Bendu", "Konia", "Gawama", "Kpetema")
+kenema_vil_inc <- c("Ngeihun", "Talia", "Bendu", "Konia", "Gawama", "Tobanda")
 
 ggplot(sero %>%
          filter(district == "Kenema") %>%
@@ -316,7 +316,90 @@ sero %>%
 
 ### Kenema - Similar/Complex
 
+```{r}
+#| kenema-sim
+
+kenema_vil_sim <- c("Benduma","Foindu", "Guaba", "Gandahun", "Kpetema", "Maleh", "Njorpowahun")
+
+ggplot(sero %>%
+         filter(district == "Kenema") %>%
+         filter(village %in% kenema_vil_sim) %>%
+         group_by(village) %>%
+         mutate(n = n(),
+                village = paste0(village, ": N =", n)),
+       aes(x = age_cat, fill = iggfinal)) +
+  geom_bar(position = "fill") +
+  facet_wrap(~ village, scales = "free") +
+  labs(title = "Kenema - Village (Similar/Complex)",
+       caption = "Limited to villages with at least one seropositive sample",
+       x = "Age",
+       y = "Proportion")
+
+sero %>%
+  filter(district == "Kenema") %>%
+  filter(village %in% kenema_vil_sim) %>%
+  group_by(village) %>%
+  mutate(n = n(),
+         village = paste0(village, ": N = ", n),
+         age_en = case_when(age_en <= 1 ~ 1,
+                            age_en == 2.5 ~ 3,
+                            TRUE ~ age_en)) %>%
+  group_by(village, age_en, iggfinal) %>%
+  summarise(n_sero = n()) %>%
+  group_by(village, age_en) %>%
+  mutate(prop_seropositive =  sum(iggfinal == "Positive") / n()) %>%
+  ggplot(aes(x = age_en, y = prop_seropositive)) +
+  geom_point(aes(size = n_sero)) +
+  geom_smooth() +
+  facet_wrap(~ village, scales = "free") +
+  labs(title = "Kenema - Village",
+       y = "Proportion")
+
+```
+
+
 ### Kenema - Decreasing
+
+```{r}
+#| kenema-dec
+
+kenema_vil_dec <- c("Bandawa","Dodo", "Komoro", "Massahun", "Yumbuma")
+
+ggplot(sero %>%
+         filter(district == "Kenema") %>%
+         filter(village %in% kenema_vil_dec) %>%
+         group_by(village) %>%
+         mutate(n = n(),
+                village = paste0(village, ": N =", n)),
+       aes(x = age_cat, fill = iggfinal)) +
+  geom_bar(position = "fill") +
+  facet_wrap(~ village, scales = "free") +
+  labs(title = "Kenema - Village (Decreasing)",
+       caption = "Limited to villages with at least one seropositive sample",
+       x = "Age",
+       y = "Proportion")
+
+sero %>%
+  filter(district == "Kenema") %>%
+  filter(village %in% kenema_vil_dec) %>%
+  group_by(village) %>%
+  mutate(n = n(),
+         village = paste0(village, ": N = ", n),
+         age_en = case_when(age_en <= 1 ~ 1,
+                            age_en == 2.5 ~ 3,
+                            TRUE ~ age_en)) %>%
+  group_by(village, age_en, iggfinal) %>%
+  summarise(n_sero = n()) %>%
+  group_by(village, age_en) %>%
+  mutate(prop_seropositive =  sum(iggfinal == "Positive") / n()) %>%
+  ggplot(aes(x = age_en, y = prop_seropositive)) +
+  geom_point(aes(size = n_sero)) +
+  geom_smooth() +
+  facet_wrap(~ village, scales = "free") +
+  labs(title = "Kenema - Village",
+       y = "Proportion")
+
+```
 
 ## Village level - Tonkoliki
 
@@ -373,6 +456,46 @@ Here perhaps we have a more limited range of patterns with Mabathoff and Masonsi
 
 ### Tonkoliki - Similar
 
+```{r}
+#| tonkoliki-sim
+
+tonkoliki_vil_sim <- c("Mabathof","Mefanta", "Makil-Bana","Massahun", "Masonsingbi", "Romangoro")
+
+ggplot(sero %>%
+         filter(district == "Tonkolili") %>%
+         filter(village %in% tonkoliki_vil_sim) %>%
+         group_by(village) %>%
+         mutate(n = n(),
+                village = paste0(village, ": N =", n)),
+       aes(x = age_cat, fill = iggfinal)) +
+  geom_bar(position = "fill") +
+  facet_wrap(~ village, scales = "free") +
+  labs(title = "Tonkoliki - Village (Similar/Complex)",
+       caption = "Limited to villages with at least one seropositive sample",
+       x = "Age",
+       y = "Proportion")
+
+sero %>%
+  filter(district == "Tonkolili") %>%
+  filter(village %in% tonkoliki_vil_sim) %>%
+  group_by(village) %>%
+  mutate(n = n(),
+         village = paste0(village, ": N = ", n),
+         age_en = case_when(age_en <= 1 ~ 1,
+                            age_en == 2.5 ~ 3,
+                            TRUE ~ age_en)) %>%
+  group_by(village, age_en, iggfinal) %>%
+  summarise(n_sero = n()) %>%
+  group_by(village, age_en) %>%
+  mutate(prop_seropositive =  sum(iggfinal == "Positive") / n()) %>%
+  ggplot(aes(x = age_en, y = prop_seropositive)) +
+  geom_point(aes(size = n_sero)) +
+  geom_smooth() +
+  facet_wrap(~ village, scales = "free") +
+  labs(title = "Tonkoliki - Village",
+       y = "Proportion")
+
+```
 ### Tonkoliki - Declining
 
 ## Village level - Port Loko
